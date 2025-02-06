@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <style>
+        body {
+            background-color: #FEA8C5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            color: #d46a85;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .gif-container {
+            margin: 20px 0;
+        }
+        .gif-container img {
+            width: 150px;
+            height: auto;
+        }
+        .btn {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        .yes-btn {
+            background-color: green;
+            color: white;
+            transition: font-size 0.3s ease;
+        }
+        .no-btn {
+            background-color: orangered;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+        .full-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #F1BFF6;
+            overflow: hidden;
+        }
+        .full-screen img {
+            width: 50%;
+            height: auto;
+        }
+        .expanded-yes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            font-size: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .full-screen h1 {
+            color: #d46a85;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(2);
+            }
+        }
+        .falling-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            transform: rotate(-45deg);
+            animation: fall 5s linear infinite;
+        }
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+        @keyframes fall {
+            0% {
+                top: -20%;
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0.5;
+            }
+        }
+        .heart-floor {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <h1>QUIERES SER MI SAN VALENTIN???</h1>
+    <div class="gif-container">
+        <img src="nUq.gif" alt="Happy Bear">
+    </div>
+    <button class="btn yes-btn">SI</button>
+    <button class="btn no-btn">No</button>
+    <audio id="background-audio" src="Gustavo Cerati - 01 Amor Amarillo - Instrumental_[cut_34sec].mp3" loop autoplay></audio>
+    <script>
+        const yesButton = document.querySelector('.yes-btn');
+        const noButton = document.querySelector('.no-btn');
+        const question = document.querySelector('h1');
+        const gifContainer = document.querySelector('.gif-container');
+        const audio = document.getElementById('background-audio');
+
+        // Try to play audio automatically
+        document.addEventListener('DOMContentLoaded', () => {
+            audio.play().catch(error => {
+                console.log('Autoplay was prevented. Audio will start on user interaction.');
+            });
+        });
+
+        // Play audio on user interaction if autoplay was prevented
+        document.body.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+            }
+        });
+
+        let noClickCount = 0;
+        const noTexts = [
+            "tas segura?",
+            "piensalo de nuevo",
+            "vas a romper mi corazoncito",
+            "y por un chocolaton?",
+            "pon que siiiiiii plisss",
+            "voy a llorar",
+            "Ok tonces no me queri"
+        ];
+        noButton.addEventListener('click', () => {
+            if (noClickCount < noTexts.length) {
+                noButton.textContent = noTexts[noClickCount];
+                yesButton.style.fontSize = `${1.5 + noClickCount * 5}rem`;
+                noClickCount++;
+            } else {
+                yesButton.classList.add('expanded-yes');
+                yesButton.textContent = "SI";
+                question.classList.add('hidden');
+                gifContainer.classList.add('hidden');
+                noButton.classList.add('hidden');
+            }
+        });
+        yesButton.addEventListener('click', () => {
+            document.body.innerHTML = `
+                <div class="full-screen">
+                    <h1>AHORA SOMOS NOVIECITOS POR 12AVA VEZ</h1>
+                    <img src="1vTW.gif" alt="asdsdasdsadsadsa">
+                    <div class="fireworks"></div>
+                    <div class="falling-hearts"></div>
+                    <div class="heart-floor"></div>
+                </div>`;
+            document.body.appendChild(audio); // Reattach the audio element to keep it playing
+
+            // Add fireworks
+            const fireworksContainer = document.querySelector('.fireworks');
+            for (let i = 0; i < 100; i++) {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = `${Math.random() * 100}%`;
+                firework.style.top = `${Math.random() * 100}%`;
+                fireworksContainer.appendChild(firework);
+            }
+
+            // Add falling hearts
+            const fallingHeartsContainer = document.querySelector('.falling-hearts');
+            for (let i = 0; i < 100; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                fallingHeartsContainer.appendChild(heart);
+            }
+        });
+    </script>
+</body>
+</html>
